@@ -1,0 +1,23 @@
+{
+  "name": "pdf-podio",
+  "version": "1.0.0",
+  "description": "Programa que conecta el API de Podio y recoge cierta información de algun item y luego genera un pdf con esta.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard --fix"
+  },
+  "keywords": [
+    "podio",
+    "pdf",
+    "js",
+    "node"
+  ],
+  "author": "Daniel Caita",
+  "license": "MIT",
+  "dependencies": {
+    "dynamic-html-pdf": "0.0.4",
+    "lint": "^1.1.2",
+    "podio-js": "^1.6.1",
+    "standard": "^11.0.1"
+  }
+}
