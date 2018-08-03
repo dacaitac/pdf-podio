@@ -11,6 +11,7 @@ yarn-error.log*
 
 # Runtime data
 config.json
+package-lock.json
 pids
 *.pdf
 *.pid
