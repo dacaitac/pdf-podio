@@ -18,15 +18,49 @@ const podio = new PodioJS({
   clientSecret: clientSecret
 })
 
-exports.request = function request (method, podioRequest, callback) {
+exports.request = function request (method, podioRequest, data, callback) {
   podio.authenticateWithApp(appId, appToken, (err) => {
     if (err) throw new Error(err)
 
-    podio.isAuthenticated().then(() => { // Ready to make API calls in here...
-      podio.request(method, podioRequest)
-        .then(response => {
-          callback(response)
-        })
+    podio.isAuthenticated()
+    .then(() => { // Ready to make API calls in here...
+      console.log('Making Request');
+      podio.request(method, podioRequest, data)
+      .then(response => {
+        console.log('Request Complete')
+        return response
+      })
+      .then(response => {
+        console.log('Executing...')
+        callback(response)
+      })
+      .catch(err => console.log(err))      
     }).catch(err => console.log(err))
+  })
+}
+
+exports.uploadFile = function uploadFile (file) {
+  let str = file.filename.split('/')
+  let filename = str[str.length -1]
+
+  data = {
+    source: file.filename,
+    filename: filename
+  }
+
+  podio.authenticateWithApp(appId, appToken, (err) => {
+    if (err) throw new Error(err)
+
+    podio.isAuthenticated()
+    .then(() => { // Ready to make API calls in here...
+      console.log('Making Request - File')
+      podio.request('POST', '/file/', data)
+      .then(response => {
+        console.log('Uploading file');
+        console.log(response)
+      })
+      .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
   })
 }

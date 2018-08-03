@@ -21,9 +21,11 @@ exports.convertPDF = function convertPDF (config, tags) {
     path: `./Carta de invitacion para ${tags.name}.pdf`
   }
 
-  pdf.create(document, options)
+  console.log('Creating PDF...');
+  return pdf.create(document, options)
     .then(res => {
-      console.log(res)
+      console.log('PDF Created')
+      return res
     })
     .catch(error => {
       console.error(error)

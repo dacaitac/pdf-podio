@@ -2,6 +2,8 @@ const podio = require('./setup')
 const fs = require('fs')
 const config = JSON.parse(fs.readFileSync('./config.json'))
 const converter = require('./converter');
+const Podio = require('podio-js')
+
 
 const itemId = 902773349 // Just for testing
 
@@ -14,13 +16,6 @@ function setPodioObject (response) { // Este ojeto se define para cada instancia
   }
 }
 
-function itemAction (itemId) {
-  podio.request('GET', `/item/${itemId}/`, (item) => {
-    let podioObject = setPodioObject(item)
-    converter.convertPDF(config, podioObject)
-  })
-}
-
 function getItems (appId) {
   podio.request('GET', `/item/app/${appId}/`, (response) => {
     let itemList = response.items
@@ -31,4 +26,18 @@ function getItems (appId) {
   })
 }
 
-getItems(config.appId)
+function itemAction (itemId) {
+  podio.request('GET', `/item/${itemId}/`, null, (item) => {
+    let podioObject = setPodioObject(item)
+    converter.convertPDF(config, podioObject)
+    .then( (pdf) => {
+      podio.uploadFile(pdf)
+      console.log(pdf)
+    })
+    .catch(err => console.log(err))    
+  })
+}
+
+
+itemAction(itemId)
+// getItems(config.appId)
