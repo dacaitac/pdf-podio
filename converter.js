@@ -16,12 +16,12 @@ exports.convertPDF = function convertPDF (config, tags) {
       options: tags,
       img1: 'https://image.ibb.co/hxpDiz/image1.png',
       img2: 'https://image.ibb.co/cmsoGK/image2.png',
-      img3: 'https://image.ibb.co/j13vwK/image3.png',
+      img3: 'https://image.ibb.co/j13vwK/image3.png'
     },
     path: `./Carta de invitacion para ${tags.name}.pdf`
   }
 
-  console.log('Creating PDF...');
+  console.log('Creating PDF...')
   return pdf.create(document, options)
     .then(res => {
       console.log('PDF Created')

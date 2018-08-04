@@ -1,9 +1,7 @@
 const podio = require('./setup')
 const fs = require('fs')
 const config = JSON.parse(fs.readFileSync('./config.json'))
-const converter = require('./converter');
-const Podio = require('podio-js')
-
+const converter = require('./converter')
 
 const itemId = 902773349 // Just for testing
 
@@ -20,7 +18,7 @@ function getItems (appId) {
   podio.request('GET', `/item/app/${appId}/`, (response) => {
     let itemList = response.items
     itemList.map(function (item) {
-      item = setPodioObject( item )
+      item = setPodioObject(item)
       itemAction(item.itemId)
     })
   })
@@ -30,14 +28,12 @@ function itemAction (itemId) {
   podio.request('GET', `/item/${itemId}/`, null, (item) => {
     let podioObject = setPodioObject(item)
     converter.convertPDF(config, podioObject)
-    .then( (pdf) => {
-      podio.uploadFile(pdf)
-      console.log(pdf)
-    })
-    .catch(err => console.log(err))    
+      .then((pdf) => {
+        podio.uploadFile(pdf)
+      })
+      .catch(err => console.log(err))
   })
 }
-
 
 itemAction(itemId)
 // getItems(config.appId)
