@@ -1,8 +1,8 @@
 const fs = require('fs')
 const pdf = require('dynamic-html-pdf')
 
-exports.convertPDF = function convertPDF (config, tags) {
-  const html = fs.readFileSync(config.template, 'utf8')
+exports.convertPDF = async function convertPDF (config, tags) {
+  let html = fs.readFileSync(config.templateSpanish, 'utf8')
 
   var options = {
     format: 'A3',
@@ -21,8 +21,10 @@ exports.convertPDF = function convertPDF (config, tags) {
     path: `./Carta de invitacion para ${tags.name}.pdf`
   }
 
-  console.log('Creating PDF...')
-  return pdf.create(document, options)
+  let files = []
+
+  console.log('Creating Spanish PDF...')
+  files.push(await pdf.create(document, options)
     .then(res => {
       console.log('PDF Created')
       return res
@@ -30,4 +32,20 @@ exports.convertPDF = function convertPDF (config, tags) {
     .catch(error => {
       console.error(error)
     })
+  )
+  console.log('Creating English PDF...')
+
+  html = fs.readFileSync(config.templateEnglish, 'utf8')
+  document.path = `./Invitation letter for ${tags.name}.pdf`
+
+  files.push(await pdf.create(document, options)
+    .then(res => {
+      console.log('PDF Created')
+      return res
+    })
+    .catch(error => {
+      console.error(error)
+    })
+  )
+  return (files)
 }

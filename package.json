@@ -19,6 +19,7 @@
     "busboy": "^0.2.14",
     "dynamic-html-pdf": "0.0.4",
     "lint": "^1.1.2",
+    "nodemailer": "^4.6.7",
     "podio-js": "^1.6.1",
     "standard": "^11.0.1",
     "temp": "^0.8.3"
